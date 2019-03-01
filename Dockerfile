@@ -3,8 +3,8 @@ FROM mhart/alpine-node:10
 WORKDIR /app
 COPY . .
 
-RUN yarn install
-RUN yarn build
+RUN npm install
+RUN npm run build
 
-EXPOSE 3000
+EXPOSE 80
 CMD ["yarn", "start"]

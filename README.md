@@ -44,7 +44,7 @@ npm run lint
 docker build -t cdssnc/az-next .
 
 # run the container
-docker run -it -p 3000:3000 cdssnc/az-next
+docker run -it -p 80:80 cdssnc/az-next
 ```
 
 On a Mac, press `Control` + `C` to quit the running docker container.
