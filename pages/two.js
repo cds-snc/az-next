@@ -10,7 +10,7 @@ const Two = () => (
     <br />
     <br />
     <Link href="/three">
-      <a>Actually, I want to see Page Three</a>
+      <a>Actually, I want to see Page 3</a>
     </Link>
   </div>
 )

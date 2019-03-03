@@ -8,8 +8,8 @@ import App from '../pages/three.js'
 describe('Page Three', () => {
   const { getByText } = render(<App />)
 
-  it('shows "Page Three"', () => {
-    expect(getByText('Page Three')).not.toBeNull()
+  it('shows "Page 3"', () => {
+    expect(getByText('Page 3')).not.toBeNull()
   })
 
   it('links to "Page Two"', () => {
