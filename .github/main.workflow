@@ -1,6 +1,8 @@
 workflow "Build, test, and deploy on push" {
   on = "push"
-  resolves = ["Deploy from DockerHub to Azure Container Instance"]
+  resolves = [
+    "Push container to Docker Hub",
+  ]
 }
 
 action "Install npm dependencies" {
@@ -20,48 +22,32 @@ action "Run Jest unit tests" {
   needs = ["Run JS linter"]
 }
 
-action "If master branch" {
+action "If workflow branch" {
   uses = "actions/bin/filter@24a566c2524e05ebedadef0a285f72dc9b631411"
   needs = ["Run Jest unit tests"]
-  args = "branch master"
+  args = "branch workflow"
 }
 
 action "Login into Docker Hub" {
   uses = "actions/docker/login@8cdf801b322af5f369e00d85e9cf3a7122f49108"
   secrets = ["DOCKER_USERNAME", "DOCKER_PASSWORD"]
-  needs = ["If master branch"]
+  needs = ["If workflow branch"]
 }
 
 action "Build a Docker container" {
   uses = "actions/docker/cli@8cdf801b322af5f369e00d85e9cf3a7122f49108"
   needs = ["Login into Docker Hub"]
-  args = "build -t cdssnc/az-next ."
+  args = "build -t base ."
+}
+
+action "Tag base container" {
+  uses = "actions/docker/tag@8cdf801b322af5f369e00d85e9cf3a7122f49108"
+  needs = ["Build a Docker container"]
+  args = "base cdssnc/az-next --env"
 }
 
 action "Push container to Docker Hub" {
   uses = "actions/docker/cli@8cdf801b322af5f369e00d85e9cf3a7122f49108"
-  needs = ["Build a Docker container"]
+  needs = ["Tag base container"]
   args = "push cdssnc/az-next"
-}
-
-action "Login to Azure" {
-  uses = "Azure/github-actions/login@d0e5a0afc6b9d8d19c9ade8e2446ef3c20e260d4"
-  needs = ["Push container to Docker Hub"]
-  secrets = ["AZURE_SERVICE_APP_ID", "AZURE_SERVICE_PASSWORD", "AZURE_SERVICE_TENANT"]
-}
-
-action "Delete previous container" {
-  uses = "Azure/github-actions/cli@d0e5a0afc6b9d8d19c9ade8e2446ef3c20e260d4"
-  needs = ["Login to Azure"]
-  env = {
-    AZURE_SCRIPT = "az container delete --resource-group az-next-rg --name az-next --yes"
-  }
-}
-
-action "Deploy from DockerHub to Azure Container Instance" {
-  uses = "Azure/github-actions/cli@d0e5a0afc6b9d8d19c9ade8e2446ef3c20e260d4"
-  needs = ["Delete previous container"]
-  env = {
-    AZURE_SCRIPT = "az container create --resource-group az-next-rg --name az-next --image cdssnc/az-next --dns-name-label az-next-demo"
-  }
 }
