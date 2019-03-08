@@ -43,7 +43,7 @@ action "Build a Docker container" {
 action "Tag base container" {
   uses = "actions/docker/tag@8cdf801b322af5f369e00d85e9cf3a7122f49108"
   needs = ["Build a Docker container"]
-  args = "base cdssnc/az-next --env"
+  args = "base cdssnc/az-next --no-ref --env"
 }
 
 action "Push container to Docker Hub" {
