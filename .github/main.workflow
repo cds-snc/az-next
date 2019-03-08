@@ -1,7 +1,7 @@
 workflow "Build, test, and deploy on push" {
   on = "push"
   resolves = [
-    "Push container to Docker Hub",
+    "Deploy from DockerHub to Azure Container Instance"
   ]
 }
 
@@ -50,4 +50,18 @@ action "Push container to Docker Hub" {
   uses = "actions/docker/cli@8cdf801b322af5f369e00d85e9cf3a7122f49108"
   needs = ["Tag base container"]
   args = "push cdssnc/az-next"
+}
+
+action "Login to Azure" {
+  uses = "Azure/github-actions/login@d0e5a0afc6b9d8d19c9ade8e2446ef3c20e260d4"
+  needs = ["Push container to Docker Hub"]
+  secrets = ["AZURE_SERVICE_APP_ID", "AZURE_SERVICE_PASSWORD", "AZURE_SERVICE_TENANT"]
+}
+
+action "Deploy from DockerHub to Azure Container Instance" {
+  uses = "Azure/github-actions/cli@d0e5a0afc6b9d8d19c9ade8e2446ef3c20e260d4"
+  needs = ["Login to Azure"]
+  env = {
+    AZURE_SCRIPT = "az container create --resource-group az-next-rg --name az-next --image cdssnc/az-next:${IMAGE_SHA} --dns-name-label az-next-demo"
+  }
 }
