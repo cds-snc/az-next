@@ -40,15 +40,21 @@ action "Build a Docker container" {
   args = "build -t base ."
 }
 
-action "Tag base container" {
-  uses = "actions/docker/tag@8cdf801b322af5f369e00d85e9cf3a7122f49108"
+action "Tag :latest" {
+  uses = "actions/docker/cli@8cdf801b322af5f369e00d85e9cf3a7122f49108"
   needs = ["Build a Docker container"]
-  args = "base cdssnc/az-next --no-ref --env"
+  args = "tag base cdssnc/az-next:latest"
+}
+
+action "Tag :$GITHUB_SHA" {
+  uses = "actions/docker/cli@8cdf801b322af5f369e00d85e9cf3a7122f49108"
+  needs = ["Tag :latest"]
+  args = "tag base cdssnc/az-next:$GITHUB_SHA"
 }
 
 action "Push container to Docker Hub" {
   uses = "actions/docker/cli@8cdf801b322af5f369e00d85e9cf3a7122f49108"
-  needs = ["Tag base container"]
+  needs = ["Tag :$GITHUB_SHA"]
   args = "push cdssnc/az-next"
 }
 
@@ -62,6 +68,6 @@ action "Deploy from DockerHub to Azure Container Instance" {
   uses = "Azure/github-actions/cli@d0e5a0afc6b9d8d19c9ade8e2446ef3c20e260d4"
   needs = ["Login to Azure"]
   env = {
-    AZURE_SCRIPT = "az container create --resource-group az-next-rg --name az-next --image cdssnc/az-next:${IMAGE_SHA} --dns-name-label az-next-demo"
+    AZURE_SCRIPT = "az container create --resource-group az-next-rg --name az-next --image cdssnc/az-next:$GITHUB_SHA --dns-name-label az-next-demo"
   }
 }
