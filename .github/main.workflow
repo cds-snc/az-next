@@ -19,12 +19,12 @@ action "Run JS linter" {
 action "Run Jest unit tests" {
   uses = "actions/npm@59b64a598378f31e49cb76f27d6f3312b582f680"
   args = "test"
-  needs = ["Run JS linter"]
+  needs = ["Install npm dependencies"]
 }
 
 action "If workflow branch" {
   uses = "actions/bin/filter@24a566c2524e05ebedadef0a285f72dc9b631411"
-  needs = ["Run Jest unit tests"]
+  needs = ["Run Jest unit tests", "Run JS linter"]
   args = "branch workflow"
 }
 
