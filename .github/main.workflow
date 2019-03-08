@@ -71,3 +71,7 @@ action "Deploy from DockerHub to Azure Container Instance" {
     AZURE_SCRIPT = "az container create --resource-group az-next-rg --name az-next --image cdssnc/az-next:$GITHUB_SHA --dns-name-label az-next-demo"
   }
 }
+
+action "Lint Dockerfile" {
+  uses = "docker://cdssnc/docker-lint"
+}
