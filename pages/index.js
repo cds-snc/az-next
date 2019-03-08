@@ -7,6 +7,8 @@ const Index = () => (
     <Link href="/two">
       <a>Page Two</a>
     </Link>
+    <br />
+    <p>Last updated: Fri, 08 Mar 2019 00:00:28 GMT</p>
   </div>
 )
 

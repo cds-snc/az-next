@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: az-next
+  name: az-next
+spec:
+  replicas: 1
+  revisionHistoryLimit: 5
+  selector:
+    matchLabels:
+      app: az-next
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: az-next
+    spec:
+      containers:
+        - image: aznextdevops.azurecr.io/pcraig3/az-next
+          imagePullPolicy: Always
+          name: az-next
+          env:
+            - name: PORT
+              value: '80'
+          resources:
+            requests:
+              cpu: 250m
+            limits:
+              cpu: 500m
+          ports:
+          - containerPort: 80
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+status: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: az-next
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+  selector:
+    app: az-next

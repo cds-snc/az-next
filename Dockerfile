@@ -1,4 +1,5 @@
-FROM mhart/alpine-node:10
+FROM node:lts-alpine
+MAINTAINER Paul Craig <paul.craig@cds-snc.ca>
 
 WORKDIR /app
 COPY . .
