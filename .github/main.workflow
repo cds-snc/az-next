@@ -5,6 +5,10 @@ workflow "Build, test, and deploy on push" {
   ]
 }
 
+action "Lint Dockerfile" {
+  uses = "docker://cdssnc/docker-lint"
+}
+
 action "Install npm dependencies" {
   uses = "actions/npm@59b64a598378f31e49cb76f27d6f3312b582f680"
   args = "install"
@@ -24,7 +28,7 @@ action "Run Jest unit tests" {
 
 action "If master branch" {
   uses = "actions/bin/filter@24a566c2524e05ebedadef0a285f72dc9b631411"
-  needs = ["Run Jest unit tests", "Run JS linter"]
+  needs = ["Run Jest unit tests", "Run JS linter", "Lint Dockerfile"]
   args = "branch master"
 }
 
