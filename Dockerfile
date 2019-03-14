@@ -1,5 +1,5 @@
 FROM node:lts-alpine
-MAINTAINER Paul Craig <paul.craig@cds-snc.ca>
+LABEL maintainer="paul.craig@cds-snc.ca"
 
 WORKDIR /app
 COPY . .
