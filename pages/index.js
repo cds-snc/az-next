@@ -8,7 +8,7 @@ const Index = () => (
       <a>Page Two</a>
     </Link>
     <br />
-    <p>Last updated: Thu, 14 Mar 2019 02:31:55 GMT</p>
+    <p>Last updated: Fri, 15 Mar 2019 21:57:45 GMT</p>
   </div>
 )
 
