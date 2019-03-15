@@ -1,7 +1,7 @@
 workflow "Build, test, and deploy on push" {
   on = "push"
   resolves = [
-    "Deploy from DockerHub to Azure Container Instance"
+    "Deploy from DockerHub to Azure App Service"
   ]
 }
 
@@ -68,10 +68,10 @@ action "Login to Azure" {
   secrets = ["AZURE_SERVICE_APP_ID", "AZURE_SERVICE_PASSWORD", "AZURE_SERVICE_TENANT"]
 }
 
-action "Deploy from DockerHub to Azure Container Instance" {
+action "Deploy from DockerHub to Azure App Service" {
   uses = "Azure/github-actions/cli@d0e5a0afc6b9d8d19c9ade8e2446ef3c20e260d4"
   needs = ["Login to Azure"]
   env = {
-    AZURE_SCRIPT = "az container create --resource-group az-next-rg --name az-next --image cdssnc/az-next:$GITHUB_SHA --dns-name-label az-next-demo"
+    AZURE_SCRIPT = "az webapp create --resource-group az-next-rg --plan AzPlan --name az-next-demo --deployment-container-image-name cdssnc/az-next:$GITHUB_SHA"
   }
 }
