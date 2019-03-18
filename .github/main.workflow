@@ -65,6 +65,7 @@ action "Push container to Docker Hub" {
 action "Login to Azure" {
   uses = "Azure/github-actions/login@d0e5a0afc6b9d8d19c9ade8e2446ef3c20e260d4"
   secrets = ["AZURE_SERVICE_APP_ID", "AZURE_SERVICE_PASSWORD", "AZURE_SERVICE_TENANT"]
+  needs = ["Push container to Docker Hub"]
 }
 
 action "Update container image in Azure App Service for Containers" {
