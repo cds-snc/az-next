@@ -1,7 +1,7 @@
 workflow "Build, test, and deploy on push" {
   on = "push"
   resolves = [
-    "Deploy from DockerHub to Azure App Service for Containers"
+    "Update container image in Azure App Service for Containers"
   ]
 }
 
@@ -26,15 +26,15 @@ action "Run Jest unit tests" {
   needs = ["Install npm dependencies"]
 }
 
-action "If master branch" {
+action "If workflow branch" {
   uses = "actions/bin/filter@24a566c2524e05ebedadef0a285f72dc9b631411"
   needs = ["Run Jest unit tests", "Run JS linter", "Lint Dockerfile"]
-  args = "branch master"
+  args = "branch workflow"
 }
 
 action "Login into Docker Hub" {
   uses = "actions/docker/login@8cdf801b322af5f369e00d85e9cf3a7122f49108"
-  needs = ["If master branch"]
+  needs = ["If workflow branch"]
   secrets = ["DOCKER_USERNAME", "DOCKER_PASSWORD"]
 }
 
@@ -68,10 +68,10 @@ action "Login to Azure" {
   secrets = ["AZURE_SERVICE_APP_ID", "AZURE_SERVICE_PASSWORD", "AZURE_SERVICE_TENANT"]
 }
 
-action "Deploy from DockerHub to Azure App Service for Containers" {
+action "Update container image in Azure App Service for Containers" {
   uses = "Azure/github-actions/cli@d0e5a0afc6b9d8d19c9ade8e2446ef3c20e260d4"
   needs = ["Login to Azure"]
   env = {
-    AZURE_SCRIPT = "az webapp create --resource-group az-next-rg --plan AzPlan --name az-next-demo --deployment-container-image-name cdssnc/az-next:$GITHUB_SHA"
+    AZURE_SCRIPT = "az webapp config container set --resource-group az-next-rg --name az-next-demo --docker-custom-image-name cdssnc/az-next:$GITHUB_SHA"
   }
 }
