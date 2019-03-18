@@ -1,7 +1,7 @@
 workflow "Build, test, and deploy on push" {
   on = "push"
   resolves = [
-    "Deploy from DockerHub to Azure App Service"
+    "Deploy from DockerHub to Azure App Service for Containers"
   ]
 }
 
@@ -68,7 +68,7 @@ action "Login to Azure" {
   secrets = ["AZURE_SERVICE_APP_ID", "AZURE_SERVICE_PASSWORD", "AZURE_SERVICE_TENANT"]
 }
 
-action "Deploy from DockerHub to Azure App Service" {
+action "Deploy from DockerHub to Azure App Service for Containers" {
   uses = "Azure/github-actions/cli@d0e5a0afc6b9d8d19c9ade8e2446ef3c20e260d4"
   needs = ["Login to Azure"]
   env = {
