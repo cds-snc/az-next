@@ -40,7 +40,7 @@ action "Login into Docker Hub" {
 
 action "Build a Docker container" {
   uses = "actions/docker/cli@8cdf801b322af5f369e00d85e9cf3a7122f49108"
-  needs = ["Login into Docker Hub"]
+  needs = ["If workflow branch"]
   args = "build -t base ."
 }
 
@@ -58,7 +58,7 @@ action "Tag :$GITHUB_SHA" {
 
 action "Push container to Docker Hub" {
   uses = "actions/docker/cli@8cdf801b322af5f369e00d85e9cf3a7122f49108"
-  needs = ["Tag :$GITHUB_SHA"]
+  needs = ["Login into Docker Hub", "Tag :$GITHUB_SHA"]
   args = "push cdssnc/az-next"
 }
 
