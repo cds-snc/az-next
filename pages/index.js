@@ -11,7 +11,14 @@ const Index = () => (
       <a>Page Two</a>
     </Link>
     <br />
-    {githubSha ? <p>Last commit: {`${githubSha}`}</p> : null}
+    {githubSha ? (
+      <p>
+        Last commit:{' '}
+        <a
+          href={`https://github.com/cds-snc/az-next/commit/${githubSha}`}
+        >{`${githubSha}`}</a>
+      </p>
+    ) : null}
   </div>
 )
 
