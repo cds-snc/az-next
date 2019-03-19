@@ -1,4 +1,7 @@
 import Link from 'next/link'
+import getConfig from 'next/config'
+
+const { publicRuntimeConfig } = getConfig()
 
 const Index = () => (
   <div>
@@ -8,7 +11,9 @@ const Index = () => (
       <a>Page Two</a>
     </Link>
     <br />
-    <p>Last updated: Mon, 18 Mar 2019 22:30:00 GMT</p>
+    {publicRuntimeConfig.githubSha ? (
+      <p>Last commit: {`${publicRuntimeConfig.githubSha}`}</p>
+    ) : null}
   </div>
 )
 
