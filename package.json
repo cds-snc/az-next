@@ -8,17 +8,17 @@
   },
   "dependencies": {
     "next": "^8.0.3",
-    "react": "^16.8.4",
-    "react-dom": "^16.8.4"
+    "react": "^16.8.5",
+    "react-dom": "^16.8.5"
   },
   "devDependencies": {
-    "@babel/core": "^7.3.4",
+    "@babel/core": "^7.4.0",
     "babel-core": "^7.0.0-bridge",
-    "babel-jest": "^24.1.0",
-    "eslint": "^5.15.1",
+    "babel-jest": "^24.5.0",
+    "eslint": "^5.15.3",
     "eslint-plugin-react": "^7.12.4",
-    "jest": "^24.1.0",
-    "react-testing-library": "^6.0.0"
+    "jest": "^24.5.0",
+    "react-testing-library": "^6.0.2"
   },
   "scripts": {
     "build": "next build",
