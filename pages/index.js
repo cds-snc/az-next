@@ -1,10 +1,14 @@
 import Link from 'next/link'
 import getConfig from 'next/config'
+import Head from 'next/head'
 
 const { publicRuntimeConfig: { githubSha = false } = {} } = getConfig() || {}
 
 const Index = () => (
-  <div>
+  <main>
+    <Head>
+      <title>Page One</title>
+    </Head>
     <h1>Page One</h1>
     <p>Check out page 2 though.</p>
     <Link href="/two">
@@ -19,7 +23,7 @@ const Index = () => (
         >{`${githubSha}`}</a>
       </p>
     ) : null}
-  </div>
+  </main>
 )
 
 export default Index

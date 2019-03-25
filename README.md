@@ -1,6 +1,6 @@
 # Next Hello
 
-This is a tiny proof-of-concept app to trial Azure container deployments.
+This is a tiny Next.js app to trial Azure container deployments.
 
 ## Getting started
 

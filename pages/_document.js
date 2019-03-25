@@ -8,10 +8,14 @@ class MyDocument extends Document {
 
   render() {
     return (
-      <Html>
+      <Html lang="en">
         <Head>
           <meta name="viewport" content="width=device-width, initial-scale=1" />
-          <style>{'body { font-size: 1.4em; font-family: sans-serif; word-break: break-word; }'}</style>
+          <style>
+            {
+              'body { font-size: 1.4em; font-family: sans-serif; word-break: break-word; }'
+            }
+          </style>
         </Head>
         <body>
           <Main />
