@@ -11,7 +11,7 @@ class MyDocument extends Document {
       <Html>
         <Head>
           <meta name="viewport" content="width=device-width, initial-scale=1" />
-          <style>{'body { font-size: 1.4em; font-family: sans-serif; }'}</style>
+          <style>{'body { font-size: 1.4em; font-family: sans-serif; word-break: break-word; }'}</style>
         </Head>
         <body>
           <Main />
